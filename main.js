@@ -1,7 +1,7 @@
 if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("sw.js");
+    // navigator.serviceWorker.register("sw.js");
   }
-  
+
   let menuToggle = document.getElementById("menu-toggle");
   let menu = document.getElementById("menu");
   let displayScreen = document.getElementById("displayScreen");
@@ -34,23 +34,31 @@ if ("serviceWorker" in navigator) {
     localStorage.setItem("timerDurationLongBreak", timerDurationLongBreak);
   });
   
+  
   menuToggle.addEventListener("click", () => {
-    if (!storedWork == 0 &&  !storedBreak == 0 && !storedLongBreak == 0) {
-        menu.classList.toggle("active");
-        displayScreen.classList.toggle("active")
-        settingsMessage.innerHTML = "Type the number of minutes you want <br/> each of your sessions to be in the input"
-    }
-    if (storedWork == 0 || storedBreak == 0 || storedLongBreak == 0) {
-        settingsMessage.innerHTML = "Please input a value"
-    }
     userWorkDuration = document.querySelector("#workDuration").value * 1;
     workDuration = userWorkDuration * 1;
     userBreakDuration = document.querySelector("#breakDuration").value * 1;
     breakDuration = userBreakDuration * 1;
     userLongBreakDuration = document.querySelector("#longBreakDuration").value * 1;
     longBreakDuration = userLongBreakDuration * 1;
-    updateDisplay();
-    console.log(userWorkDuration, userBreakDuration, userLongBreakDuration);
+    if (windowNumber == 0){
+      timerElement.innerHTML = `${timerDurationWork/60}:00`
+    }
+    if (windowNumber == 1){
+      timerElement.innerHTML = `${timerDurationBreak/60}:00`
+    }
+    if (windowNumber == 2){
+      timerElement.innerHTML = `${timerDurationLongBreak/60}:00`
+    }
+    if (userWorkDuration === 0 || userBreakDuration === 0 || userLongBreakDuration === 0 ) {
+        settingsMessage.innerHTML = "Please input a value"
+    }
+    else  {
+        menu.classList.toggle("active");
+        displayScreen.classList.toggle("active")
+        updateDisplay();
+    }
   });
   
   let userWorkDuration = document.querySelector("#workDuration").value * 1;
@@ -76,6 +84,7 @@ if ("serviceWorker" in navigator) {
   let isTimerRunning = false;
   
   function updateDisplay() {
+    updateWindow();
     timerDurationWork = workDuration * 60; // 5 minutes in seconds
     timerDurationBreak = breakDuration * 60; // 5 minutes in seconds
     timerDurationLongBreak = longBreakDuration * 60;
@@ -83,15 +92,18 @@ if ("serviceWorker" in navigator) {
       document.querySelector("h2").innerHTML = "Work Session";
       windowNumber = 0;
       updateWindow();
+      timerElement.innerHTML = `${timerDurationWork/60}:00`
     });
     breakSessionButton.addEventListener("click", function () {
       document.querySelector("h2").innerHTML = "Break Session";
       windowNumber = 1;
       updateWindow();
+      timerElement.innerHTML = `${timerDurationBreak/60}:00`
     });
     longBreakSessionButton.addEventListener("click", function () {
       document.querySelector("h2").innerHTML = "Long Break Session";
       windowNumber = 2;
+      timerElement.innerHTML = `${timerDurationLongBreak/60}:00`
       updateWindow();
     });
   }
@@ -246,9 +258,9 @@ if ("serviceWorker" in navigator) {
     document.querySelector(".container").style.backgroundColor = timerColor;
   }
   
-  let storedWork = localStorage.getItem("timerDurationWork" || "25");
-  let storedBreak = localStorage.getItem("timerDurationBreak" || "5");
-  let storedLongBreak = localStorage.getItem("timerDurationLongBreak" || "15");
+  let storedWork = localStorage.getItem("timerDurationWork" ) || 25 * 60;
+  let storedBreak = localStorage.getItem("timerDurationBreak" ) || 5 * 60;
+  let storedLongBreak = localStorage.getItem("timerDurationLongBreak" ) || 15 * 60;
   
   function updateValues() {
     document.querySelector("#workDuration").value = (storedWork * 1) / 60;
