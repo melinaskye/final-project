@@ -3,6 +3,9 @@ body {
 	background-size: cover;
 }
 
+#timerButtons {
+	display: flex; align-items: center; justify-content: center; margin: auto
+}
 
 
 *{
@@ -25,23 +28,23 @@ button {
 	box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
 }
 
-.menu {
+.menu.active{
 	display: none;
 	
 }
-.menu.active {
+.menu {
 	display: block;
 	position: relative;
 	top: 10px;
 }
 
-#displayScreen {
+#displayScreen.active {
     display: none;
 	display: block;
 	position: relative;
 	top: 10px;
 }
-#displayScreen.active {
+#displayScreen {
 	display: none;
 }
 

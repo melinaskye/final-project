@@ -1,15 +1,17 @@
 if ("serviceWorker" in navigator) {
     // navigator.serviceWorker.register("sw.js");
   }
-
+  
   let menuToggle = document.getElementById("menu-toggle");
   let menu = document.getElementById("menu");
   let displayScreen = document.getElementById("displayScreen");
-  let windowNumber = 0;
+  let windowNumber = 3;
   let audio = new Audio("audio/alarm-audio.mp3");
   let xButton = document.getElementById("xButton");
   let settingsMessage = document.querySelector('#settings-message')
-  
+  let timerButtons = document.querySelector('#timerButtons')
+
+
   let workInput = document.querySelector("#workDuration");
   workInput.addEventListener("change", function () {
     userWorkDuration = document.querySelector("#workDuration").value * 1;
@@ -34,7 +36,6 @@ if ("serviceWorker" in navigator) {
     localStorage.setItem("timerDurationLongBreak", timerDurationLongBreak);
   });
   
-  
   menuToggle.addEventListener("click", () => {
     userWorkDuration = document.querySelector("#workDuration").value * 1;
     workDuration = userWorkDuration * 1;
@@ -51,7 +52,7 @@ if ("serviceWorker" in navigator) {
     if (windowNumber == 2){
       timerElement.innerHTML = `${timerDurationLongBreak/60}:00`
     }
-    if (userWorkDuration === 0 || userBreakDuration === 0 || userLongBreakDuration === 0 ) {
+    if (storedWork === 0 || storedBreak === 0 || storedLongBreak === 0 ) {
         settingsMessage.innerHTML = "Please input a value"
     }
     else  {
@@ -118,6 +119,8 @@ if ("serviceWorker" in navigator) {
       longBreakSessionButton.style.border = "2px white solid";
       longBreakSessionButton.style.color = "white";
       longBreakSessionButton.style.backgroundColor = "rgba(0,0,0,.25)";
+      timerButtons.style.display = "flex"
+
     } else if (windowNumber == 1) {
       breakSessionButton.style.backgroundColor = "white";
       breakSessionButton.style.color = "black";
@@ -127,7 +130,9 @@ if ("serviceWorker" in navigator) {
       longBreakSessionButton.style.border = "2px white solid";
       longBreakSessionButton.style.color = "white";
       longBreakSessionButton.style.backgroundColor = "rgba(0,0,0,.25)";
-    } else {
+      timerButtons.style.display = "flex"
+
+    } else if (windowNumber == 2){
       longBreakSessionButton.style.backgroundColor = "white";
       longBreakSessionButton.style.color = "black";
       breakSessionButton.style.backgroundColor = "rgba(0,0,0,.25)";
@@ -136,6 +141,18 @@ if ("serviceWorker" in navigator) {
       workSessionButton.style.border = "2px white solid";
       workSessionButton.style.color = "white";
       workSessionButton.style.backgroundColor = "rgba(0,0,0,.25)";
+      timerButtons.style.display = "flex"
+    } else {
+      workSessionButton.style.backgroundColor = "rgba(0,0,0,.25)";
+      workSessionButton.style.border = "2px white solid";
+      workSessionButton.style.color = "white";
+      breakSessionButton.style.backgroundColor = "rgba(0,0,0,.25)";
+      breakSessionButton.style.border = "2px white solid";
+      breakSessionButton.style.color = "white";
+      longBreakSessionButton.style.border = "2px white solid";
+      longBreakSessionButton.style.color = "white";
+      longBreakSessionButton.style.backgroundColor = "rgba(0,0,0,.25)";
+timerButtons.style.display = "none"
     }
   }
   
@@ -258,9 +275,9 @@ if ("serviceWorker" in navigator) {
     document.querySelector(".container").style.backgroundColor = timerColor;
   }
   
-  let storedWork = localStorage.getItem("timerDurationWork" ) || 25 * 60;
-  let storedBreak = localStorage.getItem("timerDurationBreak" ) || 5 * 60;
-  let storedLongBreak = localStorage.getItem("timerDurationLongBreak" ) || 15 * 60;
+  let storedWork = localStorage.getItem("timerDurationWork");
+  let storedBreak = localStorage.getItem("timerDurationBreak");
+  let storedLongBreak = localStorage.getItem("timerDurationLongBreak");
   
   function updateValues() {
     document.querySelector("#workDuration").value = (storedWork * 1) / 60;
