@@ -272,6 +272,9 @@ timerButtons.style.display = "none"
       .then(results => {
      document.querySelector("body").style.backgroundImage = "url("+ results.urls.regular+ ")"
       })
+      .catch( function() {
+          console.log('could not fetch, sorry about that!');
+        })
     document.querySelector(".container").style.backgroundColor = timerColor;
   }
   
