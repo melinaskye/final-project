@@ -1,5 +1,5 @@
 if ("serviceWorker" in navigator) {
-    // navigator.serviceWorker.register("sw.js");
+    navigator.serviceWorker.register("sw.js");
   }
   
   let menuToggle = document.getElementById("menu-toggle");
@@ -52,7 +52,7 @@ if ("serviceWorker" in navigator) {
     if (windowNumber == 2){
       timerElement.innerHTML = `${timerDurationLongBreak/60}:00`
     }
-    if (storedWork === 0 || storedBreak === 0 || storedLongBreak === 0 ) {
+    if (storedWork === 0|| storedWork == null || storedBreak === 0 || storedBreak === null || storedLongBreak === 0 || storedLongBreak ===null ) {
         settingsMessage.innerHTML = "Please input a value"
     }
     else  {
@@ -267,17 +267,17 @@ timerButtons.style.display = "none"
   let timerColor = localStorage.getItem("timerColor" || "#fff");
   
   function updateColors() {
-    //   fetch("https://api.unsplash.com/photos/random?client_id=y5IWKrdKrvAQWLrIFbVbb4l-1ebvbhY1VAUU0C-cUq8")
-    //   .then(response => response.json())
-    //   .then(results => {
-    //  document.querySelector("body").style.backgroundImage = "url("+ results.urls.regular+ ")"
-    //   })
+      fetch("https://api.unsplash.com/photos/random?client_id=y5IWKrdKrvAQWLrIFbVbb4l-1ebvbhY1VAUU0C-cUq8")
+      .then(response => response.json())
+      .then(results => {
+     document.querySelector("body").style.backgroundImage = "url("+ results.urls.regular+ ")"
+      })
     document.querySelector(".container").style.backgroundColor = timerColor;
   }
   
-  let storedWork = localStorage.getItem("timerDurationWork");
-  let storedBreak = localStorage.getItem("timerDurationBreak");
-  let storedLongBreak = localStorage.getItem("timerDurationLongBreak");
+  let storedWork = localStorage.getItem("timerDurationWork") ||25 * 60;
+  let storedBreak = localStorage.getItem("timerDurationBreak") ||5 *60;
+  let storedLongBreak = localStorage.getItem("timerDurationLongBreak") ||15 *60;
   
   function updateValues() {
     document.querySelector("#workDuration").value = (storedWork * 1) / 60;
