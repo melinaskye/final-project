@@ -6,6 +6,7 @@ const urlsToCache = [
   "main.js",
   "audio/alarm-audio.mp3",
   "/",
+  "app.webmanifest"
 ];
 
 self.addEventListener("install", (event) => {
