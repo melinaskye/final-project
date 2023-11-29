@@ -1,6 +1,6 @@
-if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("sw.js");
-  }
+// if ("serviceWorker" in navigator) {
+//     navigator.serviceWorker.register("sw.js");
+//   }
   
   let menuToggle = document.getElementById("menu-toggle");
   let menu = document.getElementById("menu");
